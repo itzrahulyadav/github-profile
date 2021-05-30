@@ -1,0 +1,177 @@
+<!doctype html><html><head> 
+  <title>
+   Github profile using Api  
+ </title> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"> 
+ <style type="text/css" id="dcoder_stylesheet">*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body
+{
+  background-color: #7f53ac;
+background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+  margin:0;
+  justify-content:center;
+  padding:0 .5rem;
+}
+input
+{
+  background-color:white;
+  padding:.5rem .75rem;
+  border-radius:10px;
+  border:none;
+  margin-bottom:2rem;
+}
+
+input::placeholder
+{
+    color:#bbb;
+}
+input:focus
+{
+  outline:0;
+  border:2px solid #4c2885;
+  
+}
+.user_profile
+{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+}
+.card
+{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-color: #7f53ac;
+  border-radius:4px;
+  padding:1rem;
+  background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+}
+.img-c
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero
+{
+  width:20px;
+  height:20px;
+}
+.info
+{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
+li
+{
+  list-style-type: none;
+}
+.user-info
+{
+  color:#eee;
+  margin-left:1rem;
+}
+.info
+{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  
+}
+.user-info p
+{
+  padding:.5rem .8rem;
+}</style></head> 
+ <body> 
+  <form id="form"> 
+   <input type="text" id="search" placeholder="Search a github user"> 
+  </form> 
+  <main id="main"></main> 
+ 
+<script type="text/javascript" id="dcoder_script">const API="https://api.github.com/users/"
+const main=document.getElementById("main")
+const form=document.getElementById("form")
+const search=document.getElementById("search")
+
+
+//getData("rahul-yadav-tech")
+async function getData(user)
+{
+   const resp=await fetch(API + user);
+   const data=await resp.json();
+  // alert (JSON.stringify(data)) 
+   createUser(data);
+  
+}
+
+function createUser(user)
+{
+  const mainHtml=`
+   <div class="card">
+    <div class="img-c">
+    <img src="${user.avatar_url}" alt="${user.name}" class="user_profile">
+    </div>
+    
+    <div class="user-info">
+     <h2>${user.name}</h2>
+     <p>${user.bio}</p>
+    
+    
+    <ul class="info">
+    <li>
+    <svg class="hero" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+     </svg>
+        ${user.followers}
+    </li>
+    <li>
+    <svg class="hero" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+    </svg>
+    ${user.following}
+    
+    </li>
+   <li>
+    <svg class="hero" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+    <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+    </svg>
+    ${user.public_repos}
+    </li>
+    </ul>
+    
+    <div id="repos"></div>
+   </div>
+   </div>
+  `
+   main.innerHTML=mainHtml;
+}
+
+form.addEventListener("submit",(e)=>{
+  
+   e.preventDefault();
+   
+   const user=search.value;
+   
+   if(user){
+     getData(user)
+     
+    user.value="";
+   }
+   else
+  {
+    main.innerHTML="not found"
+  }
+})</script></body></html>
